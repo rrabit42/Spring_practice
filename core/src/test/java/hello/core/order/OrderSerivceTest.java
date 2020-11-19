@@ -1,0 +1,25 @@
+package hello.core.order;
+
+import hello.core.member.Grade;
+import hello.core.member.Member;
+import hello.core.member.MemberService;
+import hello.core.member.MemberServiceImpl;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class OrderSerivceTest {
+
+    MemberService memberService = new MemberServiceImpl();
+    OrderSerivce orderSerivce = new OrderServiceImpl();
+
+    @Test
+    void createOrder() {
+        Long memberId = 1L; // primitive type인 long 써도되는데, 그럼 null 값을 넣을 수 없음
+        Member member = new Member(memberId, "memberA", Grade.VIP);
+        memberService.join(member);
+
+        Order order = orderSerivce.createOrder(memberId, "itemA", 10000);
+
+        Assertions.assertThat(order.getDiscountPrice()).isEqualTo(1000);
+    }
+}
